@@ -1,31 +1,29 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
-class Node {
-	int start;
-	int end;
-	int weight;
-
-	public Node(int start, int end, int weight) {
-		this.start = start;
-		this.end = end;
-		this.weight = weight;
-	}
-
-	public int getStart() {
-		return start;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public int getWeight() {
-		return weight;
-	}
-}
+//class Node {
+//	int start;
+//	int end;
+//	int weight;
+//
+//	public Node(int start, int end, int weight) {
+//		this.start = start;
+//		this.end = end;
+//		this.weight = weight;
+//	}
+//
+//	public int getStart() {
+//		return start;
+//	}
+//
+//	public int getEnd() {
+//		return end;
+//	}
+//
+//	public int getWeight() {
+//		return weight;
+//	}
+//}
 
 public class MSTCode {
 	static List<Node> graph;
