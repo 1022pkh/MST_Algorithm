@@ -30,6 +30,55 @@ public class TestCode {
 	static List<Node> graph;
 	static int graphSize;
 	static int parent[];
+	static int find_set_result[];
+
+	// 1. 병합정렬
+	public static void mergeSort(int start, int end) {
+
+		if (start < end) {
+			int mid = (start + end) / 2; // 중간지점 계산
+
+			mergeSort(start, mid); // 전반부 정렬
+			mergeSort(mid + 1, end); // 후반부 정렬
+			merge(start, mid, end); // 병합
+
+		}
+
+	}
+
+	public static void merge(int start, int mid, int end) {
+		int i = start;
+		int j = mid + 1;
+		int t = 0;
+
+		int[] tempArray = new int[10];
+		List<Node> temp = new ArrayList<Node>();
+		
+		
+		while (i <= mid && j <= end) {
+			if (graph.get(i).weight <= graph.get(j).weight) {
+				temp.add(graph.get(i++));
+			} else {
+				temp.add(graph.get(j++));
+			}
+		}
+
+		while (i <= mid) {
+			temp.add(graph.get(i++));
+		}
+
+		while (j <= end) {
+			temp.add(graph.get(j++));
+		}
+
+		i = start;
+		t = 0;
+
+		while (i <= end) {
+			graph.set(i++, temp.get(t++));
+		}
+
+	}
 
 	// 2. 퀵정렬
 	public static void quickSort(int start, int end) {
@@ -51,17 +100,17 @@ public class TestCode {
 		Node temp;
 
 		for (int j = start; j < end; j++) {
-			if (graph.get(j).getWeight() <= standard.getWeight()) {
+			if (graph.get(j).weight <= standard.weight) {
 				temp = graph.get(++i);
 				graph.set(i, graph.get(j));
 				graph.set(j, temp);
 			}
 		}
 
-		temp = graph.get(i+1);
-		graph.set(i+ 1, graph.get(end));
+		temp = graph.get(i + 1);
+		graph.set(i + 1, graph.get(end));
 		graph.set(end, temp);
-		
+
 		return i + 1;
 
 	}
@@ -72,31 +121,21 @@ public class TestCode {
 		parent = new int[graphSize];
 
 		for (int i = 0; i < graphSize; i++)
-			parent[i] = i;
+			make_set(i);
 
-//		for (int i = 0; i < graph.size(); i++) {
-//			for (int j = i + 1; j < graph.size(); j++) {
-//				if (graph.get(i).getWeight() > graph.get(j).getWeight()) {
-//					Node temp = graph.get(i);
-//					graph.set(i, graph.get(j));
-//					graph.set(j, temp);
-//
-//				}
-//			}
-//		}
+//		quickSort(0, graph.size() - 1);
+		mergeSort(0, graph.size() -1);
 		
-		quickSort(0,graph.size()-1);
-	
-
+		
 		int count = 0;
 		int index = 0;
 		while (!(count + 1 == graphSize)) {
 			Node temp = graph.get(index++);
 
-			if (find_set(temp.getStart()) != find_set(temp.getEnd())) {
-				union_set(temp.getStart(), temp.getEnd());
+			if (find_set(temp.start) != find_set(temp.end)) {
+				union_set(temp.start, temp.end);
 				count++;
-				result += temp.getWeight();
+				result += temp.weight;
 			}
 
 		}
@@ -113,6 +152,7 @@ public class TestCode {
 	public static int find_set(int x) {
 		if (x == parent[x])
 			return x;
+
 		return find_set(parent[x]);
 	}
 
